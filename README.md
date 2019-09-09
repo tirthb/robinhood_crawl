@@ -21,7 +21,7 @@ rh.name=your_username
 rh.pzwd=your_password
 ```
 6. `mvn -Dbrowser=firefox -Dheadless=false clean verify` This step will take a long time for the first time as it downloads all the binaries. Subsequently, it takes 10 mins for 50 positions.
-7. The output file is portfolio.tsv under the main folder.
+7. The output file is portfolio.tsv under the main folder. It is a tab-delimited csv file.
 
 ### What should I know?
 
@@ -33,4 +33,4 @@ rh.pzwd=your_password
 
 ### Anything else?
 
-As you will be logging in for the first time in the bot browser window, Robinhood will ask you to verify your identity with a text message on yur phone.
+As you will be logging in for the first time in the bot browser window, Robinhood will ask you to verify your identity with a text message on your phone. Other github prjects do not work as Robinhood requires this additional step to authenticate now.

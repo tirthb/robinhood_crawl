@@ -7,7 +7,9 @@ So, I wrote this selenium bot to help me and others generate a tab delimited csv
 
 I use this code regularly, so I will keep it updated and support it till Robinhood allows crawling the web version.
 
-It will work for you if you just trade put credit spreads and long calls like me. If you trade shares and other vehicles, please fork and feel free to modify it. Or connect me through github and I will be happy to give you write access.
+It will work for you if you just trade put credit spreads and long calls, like me. If you trade shares and other vehicles, please fork and feel free to modify it. Or connect me through github and I will be happy to give you write access.
+
+Thanks to the `Selenium-Maven-Template` project from which I forked.
 
 1. Open a terminal window/command prompt
 2. Clone this project.

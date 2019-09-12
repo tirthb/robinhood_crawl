@@ -108,11 +108,11 @@ public class PortfolioPage extends AbstractPage {
     	//driver.get("https://robinhood.com/stocks/" + r.symbol);
     	
     	DriverBase.tryOnTimeout(driver, "div.col-12", r.symbol + " - $", true, 3);
-    	r.currentStockPrice = parseStockPrice(driver);
     	
+    	System.out.println("Page title is: " + driver.getTitle());
+    	
+    	r.currentStockPrice = parseStockPrice(driver);
     	r.setNextEarningsDate(parseNextEarningsDate(driver));
-        
-        System.out.println("Page title is: " + driver.getTitle());
         
         System.out.println(r);
         
@@ -129,16 +129,11 @@ public class PortfolioPage extends AbstractPage {
         return null;
     }
     
-    private String parseNextEarningsDate(RemoteWebDriver driver) {
+    private String parseNextEarningsDate(RemoteWebDriver driver) throws Exception {
     	
     	//Available Sep 12, After Hours or Expected Oct 29, After Hours
-    	String text;
-		try {
-			text = nextEarningsDate.findWebElement().getText();
-		} catch (org.openqa.selenium.NoSuchElementException e) {
-			return null;
-		}
-		
+    	String text = waitForSeconds(nextEarningsDate, 10);
+    	
     	String patternString = "[A-Z][a-z]{2} \\d(\\d)?";
         
         Pattern pattern = Pattern.compile(patternString);
@@ -152,14 +147,28 @@ public class PortfolioPage extends AbstractPage {
     }
     
 	private String waitForSeconds(Query q, int seconds) throws Exception {
-		WebElement e = q.findWebElement();
-		String text = e.getText();
+		
+		WebElement e;
+		String text = "";
+		
+		try {
+			e = q.findWebElement();
+			text = e.getText();
+		} catch (org.openqa.selenium.NoSuchElementException e1) {
+			//do nothing
+		}
+		
 		int counter = 0;
-    	while (!"".equals(text) && counter < seconds*10) {
+    	while ("".equals(text) && counter < seconds*10) {
     		Thread.sleep(100);
-    		text = q.findWebElement().getText();
+    		try {
+				text = q.findWebElement().getText();
+			} catch (Exception e1) {
+				//do nothing
+			}
     		++counter;
     	}
+    	
     	return text;
 	}
 	

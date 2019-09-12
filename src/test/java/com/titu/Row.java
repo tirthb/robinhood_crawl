@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ public class Row {
 	public Boolean isSpread;
 	public String symbol;
 	public String expirationDate;
+	private String nextEarningsDate;
 	public Integer quantity;
 	public Float marketValue;
 	public Float currentStockPrice;
@@ -227,29 +229,76 @@ public class Row {
 		return currentStockPrice.subtract(breakEven).divide(breakEven, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L)).floatValue();
 	}
 	
-	public Long getDaysLeft() {
+	public String getNextEarningsDate() {
+		return nextEarningsDate;
+	}
+	
+	public void setNextEarningsDate(String mon_dd/*Oct 29*/) {
 		
-		if (expirationDate != null) {
-			
+		if (mon_dd != null) {
+
+			Date earningsDate = null;
+			String parsePattern = "MMM dd";
+			String formatPattern = "yyyy-MM-dd";
+			SimpleDateFormat parseFormat = new SimpleDateFormat(parsePattern);
+			SimpleDateFormat printFormat = new SimpleDateFormat(formatPattern);
+
+			try {
+				earningsDate = parseFormat.parse(mon_dd);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return;
+			}
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(earningsDate);
+
+			Calendar now = Util.getTodayWithoutTime();
+
+			int currentYear = now.get(Calendar.YEAR);
+			cal.set(Calendar.YEAR, currentYear);
+
+			if (cal.before(now)) {
+				cal.set(Calendar.YEAR, currentYear + 1);
+			}
+
+			nextEarningsDate = printFormat.format(cal.getTime());
+		}
+	}
+	
+	public Long getDaysLeftForExpiry() {
+		
+		return getDaysLeft(expirationDate);
+	}
+	
+	public Long getDaysLeftForEarnings() {
+		
+		return getDaysLeft(nextEarningsDate);
+	}
+	
+	private Long getDaysLeft(String date) {
+		
+		if (date != null) {
+
 			Date expDate = null;
 			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
 			try {
-				expDate = simpleDateFormat.parse(expirationDate);
+				expDate = simpleDateFormat.parse(date);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
+
 			long startTime = new Date().getTime();
 			long endTime = expDate.getTime();
 			long diffTime = endTime - startTime;
 			long diffDays = diffTime / (1000 * 60 * 60 * 24);
-			
+
 			return diffDays;
-			
+
 		}
-		
+
 		return null;
 	}
 	
@@ -263,7 +312,9 @@ public class Row {
 				+ (isSpread != null ? "isSpread=" + isSpread + ", " : "")
 				+ (symbol != null ? "symbol=" + symbol + ", " : "")
 				+ (expirationDate != null ? "expirationDate=" + expirationDate + ", " : "")
-				+ (getDaysLeft() != null ? "getDaysLeft()=" + getDaysLeft() + ", " : "")
+				+ (getDaysLeftForExpiry() != null ? "getDaysLeftForExpiry()=" + getDaysLeftForExpiry() + ", " : "")
+				+ (nextEarningsDate != null ? "nextEarningsDate=" + nextEarningsDate + ", " : "")
+				+ (getDaysLeftForEarnings() != null ? "getDaysLeftForEarnings=" + getDaysLeftForEarnings() + ", " : "")
 				+ (quantity != null ? "quantity=" + quantity + ", " : "")
 				+ (marketValue != null ? "marketValue=" + marketValue + ", " : "")
 				+ (currentStockPrice != null ? "currentStockPrice=" + currentStockPrice + ", " : "")

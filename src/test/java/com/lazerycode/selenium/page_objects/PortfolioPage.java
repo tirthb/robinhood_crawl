@@ -24,6 +24,7 @@ public class PortfolioPage extends AbstractPage {
     private Query quantity = new Query().defaultLocator(ByCssSelector.cssSelector("div.grid-2 > div:nth-child(2) > table > tbody > tr:nth-child(1) > td:nth-child(3)"));
     private Query costOrCredit = new Query().defaultLocator(ByCssSelector.cssSelector("div.grid-2 > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(3)"));
     private Query symbol = new Query().defaultLocator(ByCssSelector.cssSelector("h1 > a"));
+    private Query nextEarningsDate = new Query().defaultLocator(ByCssSelector.cssSelector("div.col-12 > div:nth-child(2) > div > div:nth-child(2)"));
     
     private List<Row> rows = new ArrayList<>();
     
@@ -36,7 +37,7 @@ public class PortfolioPage extends AbstractPage {
      * @return
      * @throws Exception
      */
-    public List<Row> getPositions(int begin) throws Exception {
+    public List<Row> getPositions() throws Exception {
     	
     	RemoteWebDriver driver = DriverBase.getDriver();
     	
@@ -106,20 +107,48 @@ public class PortfolioPage extends AbstractPage {
     	symbol.findWebElement().click();
     	//driver.get("https://robinhood.com/stocks/" + r.symbol);
     	
-    	DriverBase.tryOnTimeout(driver, null, r.symbol + " - $", false, 3);
+    	DriverBase.tryOnTimeout(driver, "div.col-12", r.symbol + " - $", true, 3);
+    	r.currentStockPrice = parseStockPrice(driver);
+    	
+    	r.setNextEarningsDate(parseNextEarningsDate(driver));
         
         System.out.println("Page title is: " + driver.getTitle());
         
-        Pattern pattern = Pattern.compile("\\$[\\d|\\.|,]+");
+        System.out.println(r);
+        
+    }
+    
+    private Float parseStockPrice(RemoteWebDriver driver) {
+    	Pattern pattern = Pattern.compile("\\$[\\d|\\.|,]+");
         Matcher matcher = pattern.matcher(driver.getTitle());
         if(matcher.find()) {
-        	r.currentStockPrice = Float.valueOf(
-        							driver.getTitle().substring(matcher.start(), matcher.end())
+        	return Float.valueOf(driver.getTitle().substring(matcher.start(), matcher.end())
         							.replaceAll("(\\$|,)", ""));
         }
         
-        System.out.println(r);
+        return null;
+    }
+    
+    private String parseNextEarningsDate(RemoteWebDriver driver) {
+    	
+    	//Available Sep 12, After Hours or Expected Oct 29, After Hours
+    	String text;
+		try {
+			text = nextEarningsDate.findWebElement().getText();
+		} catch (org.openqa.selenium.NoSuchElementException e) {
+			return null;
+		}
+		
+    	String patternString = "[A-Z][a-z]{2} \\d(\\d)?";
         
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(text);
+
+        if(matcher.find()) {
+            return text.substring(matcher.start(), matcher.end());
+        }
+    	
+        return null;
     }
     
 	private String waitForSeconds(Query q, int seconds) throws Exception {

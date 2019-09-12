@@ -66,7 +66,7 @@ public class RobinhoodIT extends DriverBase {
     public void getPositions() throws Exception{
     	
         PortfolioPage pfPage = new PortfolioPage();
-        List<Row> rows = pfPage.getPositions(0);
+        List<Row> rows = pfPage.getPositions();
 
         System.out.println("Positions: " + rows);
         new WriteCSVFile(rows).write();

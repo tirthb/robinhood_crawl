@@ -31,6 +31,8 @@ public class WriteCSVFile {
                 new NotNull(), // Symbol
                 new Optional(), // Expiration
                 new Optional(), // Days Left
+                new Optional(), // Next Earnings
+                new Optional(), // Days Left
                 new NotNull(), // Investment
                 new Optional(), // Credit
                 new NotNull(), // Qty
@@ -55,6 +57,8 @@ public class WriteCSVFile {
 								        		"Symbol", 
 								        		"Expiration",
 								        		"Days Left",
+								        		"Next Earnings",
+								        		"Days Left (Earnings)",
 								        		"Investment",
 								        		"Credit", 
 								        		"Qty", 
@@ -88,7 +92,9 @@ public class WriteCSVFile {
                     line.put(header[n++], row.getDescription());
                     line.put(header[n++], row.symbol);
                     line.put(header[n++], row.expirationDate);
-                    line.put(header[n++], row.getDaysLeft());
+                    line.put(header[n++], row.getDaysLeftForExpiry());
+                    line.put(header[n++], row.getNextEarningsDate());
+                    line.put(header[n++], row.getDaysLeftForEarnings());
                     line.put(header[n++], row.getInvestment());
                     line.put(header[n++], row.credit);
                     line.put(header[n++], row.quantity);

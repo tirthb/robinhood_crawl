@@ -22,6 +22,7 @@ rh.pzwd=your_password
 ```
 6. `mvn -Dbrowser=firefox -Dheadless=false clean verify` This step will take a long time for the first time as it downloads all the binaries. Subsequently, it takes 10 mins for 50 positions.
 7. The output file is portfolio.tsv under the main folder. It is a tab-delimited csv file.
+[Sample](https://docs.google.com/spreadsheets/d/1JTCY-gocBJue6IZQL0WaQpdzBk42fxedXiUxsyUI9U4/edit?usp=sharing) portfolio export csv file.
 
 ### What should I know?
 

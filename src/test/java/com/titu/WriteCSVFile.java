@@ -42,7 +42,7 @@ public class WriteCSVFile {
                 new Optional(), //Profit Target
                 new NotNull(), //Max Loss
                 new NotNull(), // Stock price
-                new NotNull(), // Break even
+                new Optional(), // Break even
                 new Optional(), //Percent Distance From Breakeven
                 new Optional(), //Optimist Target
                 new Optional(), //Pessimist Target

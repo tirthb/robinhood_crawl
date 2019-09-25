@@ -213,6 +213,12 @@ public class Row {
 			BigDecimal costPerUnit = cost.divide(BigDecimal.valueOf(100L)).divide(qty, 2, RoundingMode.HALF_UP);
 			BigDecimal breakEven = strikePrice.subtract(costPerUnit);
 			return breakEven.floatValue();
+		} else if (isPut && !isSpread) {
+			BigDecimal cost = BigDecimal.valueOf(this.cost);
+			BigDecimal strikePrice = BigDecimal.valueOf(this.strikePrice);
+			BigDecimal costPerUnit = cost.divide(BigDecimal.valueOf(100L)).divide(qty, 2, RoundingMode.HALF_UP);
+			BigDecimal breakEven = strikePrice.add(costPerUnit);
+			return breakEven.floatValue();
 		}
 		
 		return null;

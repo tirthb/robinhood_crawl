@@ -26,8 +26,6 @@ public class PortfolioPage extends AbstractPage {
     private Query symbol = new Query().defaultLocator(ByCssSelector.cssSelector("h1 > a"));
     private Query nextEarningsDate = new Query().defaultLocator(ByCssSelector.cssSelector("div.col-12 > div:nth-child(2) > div > div:nth-child(2)"));
     
-    private List<Row> rows = new ArrayList<>();
-    
     public PortfolioPage() throws Exception {
         initQueryObjects(this, DriverBase.getDriver());
     }
@@ -38,6 +36,8 @@ public class PortfolioPage extends AbstractPage {
      * @throws Exception
      */
     public List<Row> getPositions() throws Exception {
+    	
+    	List<Row> rows = new ArrayList<>();
     	
     	RemoteWebDriver driver = DriverBase.getDriver();
     	

@@ -242,6 +242,8 @@ public class Row {
 	public void setNextEarningsDate(String mon_dd/*Oct 29*/) {
 		
 		if (mon_dd != null) {
+			
+			//System.out.println("from setNextEarningsDate: " + this.getDescription() + " - " + mon_dd);
 
 			Date earningsDate = null;
 			String parsePattern = "MMM dd";

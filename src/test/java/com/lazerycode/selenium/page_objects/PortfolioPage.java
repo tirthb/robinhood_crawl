@@ -132,7 +132,7 @@ public class PortfolioPage extends AbstractPage {
     private String parseNextEarningsDate(RemoteWebDriver driver) throws Exception {
     	
     	//Available Sep 12, After Hours or Expected Oct 29, After Hours
-    	String text = waitForSeconds(nextEarningsDate, 10);
+    	String text = waitForSeconds(nextEarningsDate, 30);
     	
     	String patternString = "[A-Z][a-z]{2} \\d(\\d)?";
         

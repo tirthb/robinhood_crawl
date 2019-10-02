@@ -17,7 +17,7 @@ public class Row {
 	public Boolean isCall;
 	public Boolean isSpread;
 	public String symbol;
-	public String expirationDate;
+	private String expirationDate;
 	private String nextEarningsDate;
 	public Integer quantity;
 	public Float marketValue;
@@ -233,6 +233,42 @@ public class Row {
 		BigDecimal currentStockPrice = BigDecimal.valueOf(this.currentStockPrice);
 		BigDecimal breakEven = BigDecimal.valueOf(getBreakEven());
 		return currentStockPrice.subtract(breakEven).divide(breakEven, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L)).floatValue();
+	}
+	
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+	
+	public void setExpirationDate(String MMdd) {
+		
+		if (MMdd != null) {
+			Date expDate = null;
+			String parsePattern = "MMdd";
+			String formatPattern = "yyyy-MM-dd";
+			SimpleDateFormat parseFormat = new SimpleDateFormat(parsePattern);
+			SimpleDateFormat printFormat = new SimpleDateFormat(formatPattern);
+
+			try {
+				expDate = parseFormat.parse(MMdd);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return;
+			}
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(expDate);
+
+			Calendar now = Util.getTodayWithoutTime();
+
+			int currentYear = now.get(Calendar.YEAR);
+			cal.set(Calendar.YEAR, currentYear);
+
+			if (cal.before(now)) {
+				cal.set(Calendar.YEAR, currentYear + 1);
+			}
+
+			expirationDate = printFormat.format(cal.getTime());
+		}
 	}
 	
 	public String getNextEarningsDate() {

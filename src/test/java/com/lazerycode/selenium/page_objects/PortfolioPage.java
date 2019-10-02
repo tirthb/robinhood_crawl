@@ -89,9 +89,8 @@ public class PortfolioPage extends AbstractPage {
     	String[] dateParts = expDate.split("/");
     	String month = dateParts[0].length() == 1 ? "0" + dateParts[0] : dateParts[0];
     	String day = dateParts[1].length() == 1 ? "0" + dateParts[1] : dateParts[1];
-    	int year = Calendar.getInstance().get(Calendar.YEAR);
-    	expDate = year + "-" + month + "-" + day;
-    	r.expirationDate = expDate;
+    	expDate = month + day;
+    	r.setExpirationDate(expDate);
     	
     	String qty = quantity.findWebElement().getText();
     	r.quantity = Math.abs(Integer.valueOf(qty));
@@ -132,7 +131,7 @@ public class PortfolioPage extends AbstractPage {
     private String parseNextEarningsDate(RemoteWebDriver driver) throws Exception {
     	
     	//Available Sep 12, After Hours or Expected Oct 29, After Hours
-    	String text = waitForSeconds(nextEarningsDate, 30);
+    	String text = waitForSeconds(nextEarningsDate, 60);
     	
     	String patternString = "[A-Z][a-z]{2} \\d(\\d)?";
         

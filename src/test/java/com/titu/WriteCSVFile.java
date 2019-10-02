@@ -91,7 +91,7 @@ public class WriteCSVFile {
                 	int n = 0;
                     line.put(header[n++], row.getDescription());
                     line.put(header[n++], row.symbol);
-                    line.put(header[n++], row.expirationDate);
+                    line.put(header[n++], row.getExpirationDate());
                     line.put(header[n++], row.getDaysLeftForExpiry());
                     line.put(header[n++], row.getNextEarningsDate());
                     line.put(header[n++], row.getDaysLeftForEarnings());

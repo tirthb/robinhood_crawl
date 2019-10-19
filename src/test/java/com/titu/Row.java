@@ -159,7 +159,7 @@ public class Row {
 		
 		if (isSpread) {
 			BigDecimal credit = BigDecimal.valueOf(this.credit);
-			this.profitTarget = credit.multiply(BigDecimal.valueOf(0.9)).setScale(2, RoundingMode.HALF_UP).floatValue();
+			this.profitTarget = credit.multiply(BigDecimal.valueOf(0.5)).setScale(2, RoundingMode.HALF_UP).floatValue();
 		}
 		
 		return profitTarget;

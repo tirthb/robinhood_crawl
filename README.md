@@ -34,4 +34,4 @@ rh.pzwd=your_password
 
 ### Anything else?
 
-As you will be logging in for the first time in the bot browser window, Robinhood will ask you to verify your identity with a text message on your phone. Other github prjects do not work as Robinhood requires this additional step to authenticate now.
+As you will be logging in for the first time in the bot browser window, Robinhood will ask you to verify your identity with a text message on your phone. Other github projects do not work as Robinhood requires this additional step to authenticate now.
